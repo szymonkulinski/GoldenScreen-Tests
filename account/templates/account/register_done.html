@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Witaj{% endblock %}
+
+{% block extra_head %}
+	<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/loginRegister.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="cm container">
+  <h1>Witaj {{ new_user.username }}!</h1>
+  <p>Twoje konto zostało poprawnie utworzone. Możesz się teraz <a href="{% url 'account:login' %}">zalogować</a>.</p>
+ </div>
+{% endblock %}

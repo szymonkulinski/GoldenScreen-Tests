@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% load index %}
+
+{% block title %}Mapa kin{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/movieLib.css' %}" rel="stylesheet">
+<link href="{% static 'css/mapStyle.css' %}" rel="stylesheet">
+<script>
+	function initMap() {
+		const places = JSON.parse('{{cinemasLocations|safe}}');
+		var cinemas = [];
+		places.forEach(element => {
+			cinemas.push(element)
+		});
+		let map = new google.maps.Map(document.getElementById("map"), {
+			zoom: 7,
+			center: { lat: parseFloat(cinemas[0].fields.geolocation.split(",")[0]), lng: parseFloat(cinemas[0].fields.geolocation.split(",")[1]) },
+			mapTypeControl: true,
+			mapTypeControlOptions: {
+				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+				position: google.maps.ControlPosition.TOP_CENTER,
+			},
+			zoomControl: true,
+			zoomControlOptions: {
+				position: google.maps.ControlPosition.LEFT_CENTER,
+			},
+			scaleControl: true,
+			streetViewControl: true,
+			streetViewControlOptions: {
+				position: google.maps.ControlPosition.LEFT_TOP,
+			},
+			fullscreenControl: true,
+		});
+		navigator.geolocation.getCurrentPosition(position => {
+			const { latitude, longitude } = position.coords;
+			map.setZoom(9);
+			map.setCenter({ lat: latitude, lng: longitude });
+			var currLoc = new google.maps.Marker({
+				position: { lat: latitude, lng: longitude },
+				map: map,
+				title: "Obecna lokalizacja",
+				label: {
+					text: "\ue88a",
+					fontFamily: "Material Icons",
+					color: "#ffffff",
+					fontSize: "18px",
+				},
+			});
+			(function (currLoc) {
+				google.maps.event.addListener(currLoc, "click", function (e) {
+					map.setZoom(11);
+					map.setCenter(currLoc.getPosition());
+				})
+			})(currLoc);
+		});
+
+		const geocoder = new google.maps.Geocoder();
+
+
+		for (var i = 0; i < cinemas.length; i++) {
+			const latlng = { lat: parseFloat(cinemas[i].fields.geolocation.split(",")[0]), lng: parseFloat(cinemas[i].fields.geolocation.split(",")[1]) };
+			geocodeLatLng(geocoder, map, latlng, cinemas[i].fields.name)
+		}
+		function geocodeLatLng(geocoder, map, latlng, cinemaName) {
+			const infowindow = new google.maps.InfoWindow();
+			response = null;
+			geocoder
+				.geocode({ location: latlng })
+				.then((response) => {
+					if (response.results[0]) {
+						const marker = new google.maps.Marker({
+							position: latlng,
+							map: map,
+							title: cinemaName,
+							shouldFocus: false,
+						});
+						console.log(response.results[0])
+						infowindow.setContent(response.results[0].formatted_address);
+						marker.addListener("mouseover", function () {
+							infowindow.open(map, marker);
+						});
+						marker.addListener("mouseout", function () {
+							infowindow.close();
+						});
+						marker.addListener("click", function (e) {
+							var select = document.getElementById("cinemaSelector");
+							select.value = marker.title;
+							document.getElementById("cinemaForm").submit();
+						})
+					}
+					else {
+						window.alert("No results found");
+					}
+				})
+				.catch((e) => window.alert("Geocoder failed due to: " + e));
+		}
+	}
+</script>
+{% endblock %}
+{% block content %}
+<div class="mainbox mt-5">
+	<div id="biblioteka">
+		<div id="map"></div>
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNoFllG6lCPzjxe02ySghBDEc90bxsAOo&callback=initMap"></script>
+	</div>
+</div>
+{% endblock %}

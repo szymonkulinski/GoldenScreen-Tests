@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ showing.movie.title }} - Rezerwacja{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/repertoire.css' %}" rel="stylesheet">
+<link href="{% static 'css/detailsMovie.css' %}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container" style ="margin-top: 100px;">
+	<h1>{{ showing.movie.title }}</h1>
+	<h4>{{showing.hall }}<br>{{showing.showingDate.day}}.{% if showing.showingDate.month > 9 %}
+		{{showing.showingDate.month}}
+		{%else%}0{{showing.showingDate.month}}{%endif%} - {{showing.showingHour|truncatechars:6|slice:5}}
+	</h4>
+	{% if message %}
+		<p class="taken">{{ message }}</p>
+	{% endif %}
+	
+	<p id="taken">0/8</p>
+	<p id="seats" style = "position: absolute;"> </p>
+	<div class="seatInfo">	
+	<form action="" method="post">
+	{% csrf_token %}
+	<table id ="myTable" class="styled-table">
+	
+	{% for x in showing.seats %}
+		<tr>
+			<td>
+				<p> {{forloop.counter}} </p>
+			</td>
+		{% for seat in x.seats %}
+			{% if seat.isSeat %}
+				<td style="position: relative;">
+					{% if seat.isTaken %}
+						<i class=" material-icons taken" style="color:red; position: absolute; top: 0; right: 0; pointer-events: none; ">event_seat</i>
+					{% else %}
+						<i class=" material-icons" style=" position: absolute; top: 0; right: 0; pointer-events: none; ">event_seat</i>
+					{% endif %}
+
+					{% if seat.isTaken %}
+						<input type="checkbox" style="cursor: pointer; position: absolute; top: 0; right: 0;" disabled class="hiddenCheck colorSwap noStyle">
+					{% else %}
+						<input type="checkbox" style="cursor: pointer; position: absolute; top: 0; right: 0;" class="hiddenCheck colorSwap noStyle" value="{{ x.index }}.{{ seat.id }}" name="seats" id="seats">
+					{% endif %}
+				</td>
+			{% else %}
+				<td></td>
+			{% endif %}
+		{% endfor %}
+		<td>
+			<p> {{forloop.counter}} </p>
+		</td>
+		</tr>
+	{% endfor %}
+	
+	</table>
+	
+	<input type="submit" id="btncheck" name="confirmSeats" value="Przejdź do finalizacji">
+  </div>
+  	
+</div>
+
+<script src="{% static 'js/seatSetter.js' %}"></script>
+<script>
+	var colCount = document.getElementById("myTable").rows[0].cells.length;
+	var string = "<tr><td></td>";
+	for (let i = 1; i < colCount-1; i++) {
+		string += "<td><p>" + i + "</p></td>";
+	}
+	string += "<td></td></tr>"
+
+	$('#myTable tr:last').after(string);
+
+
+</script>
+{% endblock %}

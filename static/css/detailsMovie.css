@@ -1,0 +1,370 @@
+.checked {
+    color: black;
+}
+.hiddenCheck {
+    opacity: 0;
+}
+
+td {
+    text-justify: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.container-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.filmInfo {
+    padding: 10px;
+    margin-top: 80px;
+    width: 80%;
+    box-shadow: 4px 3px 4px 3px darkgray;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 0.3fr repeat(4, 1fr); 
+}
+.icon2row {
+    display: grid;
+    grid-template-columns: 0.2fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px; 
+}
+.icon-icon { 
+    display: flex;
+    grid-area: 1 / 1 / 3 / 2; 
+    justify-content: center;
+    align-items: center;
+}
+.icon-toprow { grid-area: 1 / 2 / 2 / 3; }
+.icon-bottomrow { grid-area: 2 / 2 / 3 / 3; }
+
+
+.titleDiv {
+     grid-area: 1 / 1 / 2 / 3; 
+     display: flex;
+     justify-content: space-between;
+    }
+.imgDiv { 
+    grid-area: 2 / 1 / 4 / 2;  
+    position: relative;
+    aspect-ratio: 16 / 9;
+}
+.frameDiv { grid-area: 4 / 1 / 6 / 2; }
+.infoDiv { 
+    grid-area: 2 / 2 / 4 / 3; 
+    display: grid;
+    padding: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 0.1fr 0.2fr 0.5fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 20px; 
+}
+.oneLiner {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.opinionDate {
+    font-size: 0.8rem;
+    color: gray;
+    margin-top: 20px;
+}
+.opinionReview{
+    word-wrap: break-word;
+}
+.opisDiv { 
+    grid-area: 4 / 2 / 6 / 3;
+    margin-top: 30px; 
+    padding-left: 10px;
+}
+.trailerFrame, .card-img {
+    aspect-ratio: 16 / 9;
+} 
+.trailerFrame {
+    margin-top: 30px;
+    margin-left: 15%;
+    width: 70%;
+}
+.card-img {
+    width: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.lengthDiv { grid-area: 1 / 1 / 2 / 2; }
+.dateDiv { grid-area: 1 / 2 / 2 / 3; }
+.countryDiv { grid-area: 2 / 1 / 3 / 3; }
+.pplDiv {
+    grid-area: 3 / 1 / 4 / 3; 
+    display: grid;
+    grid-template-columns: 0.7fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+.directorDiv { grid-area: 1 / 1 / 2 / 2; }
+.screenwriterDiv { grid-area: 1 / 2 / 2 / 3; }
+.castDiv { grid-area: 2 / 1 / 3 / 3; } 
+
+.hourSpan {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+}
+.day {
+    border-right: 1px solid gray;
+    border-left: 1px solid gray;
+    flex-grow: 1;
+    text-align: center;
+}
+.daySpan {
+    background-color: rgb(240, 240, 240);
+}
+.repertoireTable {
+    border-top: 1px solid gray;
+    display: inline-flex;
+    justify-content: center;
+    margin-right: -1px;
+    font-size: 40px;
+    width: 100%;
+}
+
+.titleSpan {
+    font-size: 27px;
+    font-weight: 600;
+    color: #828282;
+}
+.titleP {
+    font-weight: 700;
+    font-size: 18px;
+    color: rgb(46, 45, 45);
+}
+.btnDiv {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateY(50%) translateX(-50%);
+}
+.play-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: white;
+    position: relative;
+}
+.play-btn::before {
+    content: "";
+    position: absolute;
+    width: 57px;
+    height: 57px;
+    background-color: black;
+    z-index: -1;
+    border-radius: 50%;
+}
+.play-btn:hover .rndIcon{
+    color: rgb(107, 162, 180);
+    transition: 0.2s;
+}
+.play-btn:hover{
+    color: rgb(151, 196, 211);
+    transition: 0.2s;
+}
+
+#review  {
+    font-size: 2rem;
+    width: auto;
+}
+
+.reviewDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    padding: 20px 0 20px 0;
+}
+.reviewDiv label {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+.headerText {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+.reviewDiv button[type=submit] {
+    width: 30%;
+    margin-left: 70%;
+}
+.reviewDiv textarea {
+    border: 2px solid darkgray;
+    box-shadow: 3px 3px 1px 1px darkgray;
+    border-radius: 10px;
+    height: 200px;
+}
+.reviewContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: 4px 3px 4px 3px darkgray;
+}
+.opinion {
+    padding: 20px 0px 0px 0px; 
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+}
+
+.opinionHeader {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.divCollapse {
+    transition: all 1s ease-out;
+    width: 80%;
+}
+.textRatingDivHidden {
+    display: none;
+    height: 0px;
+}
+.textRatingDiv {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+#textRating {
+    resize: none;
+}
+.textRatingSend {
+    margin-top: 10px;
+    padding: 10px 0 10px 0;
+    outline: none;
+    font-weight: 700;
+    color:rgb(122, 122, 122);
+    border: 2px solid darkgray;
+    background: none;
+    border-radius: 10px;
+}
+.textRatingSend:hover {
+    color: lightgreen;
+    border-color: lightgreen;
+}
+.reviewHolder {
+    width: 80%;
+}
+
+/* cool colors testing */
+.ratingSquare {
+    background-color: #828282;
+    height: 100px;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: 800;
+    color: white;
+}
+
+[data-rating-avg^="5"] {
+    background-color: #57e32c;
+}
+[data-rating-avg^="4"] {
+    background-color: #b7dd29;
+}
+[data-rating-avg^="3"] {
+    background-color: #ffe234;
+}
+[data-rating-avg^="2"] {
+    background-color: #ffa534;
+}
+[data-rating-avg^="1"] {
+    background-color: #ff4545;
+}
+
+/* end of cool colors testing */
+
+
+
+@media screen and (max-width: 990px) {
+    .filmInfo {
+        width: 130%;
+    }
+}
+@media screen and (max-width: 920px) {
+    .filmInfo {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 570px) {
+    .filmInfo {
+        width: 100%;
+    }
+}
+
+/* carousel  */
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.9);
+}
+  
+.modal-content {
+    background-color: transparent;
+    border: none;
+    margin: auto;
+    margin-top: 5%;
+    padding: 20px;
+    width: 900px;
+    height: 60%;
+}
+
+.close {
+    color: #fff;
+    font-size: 38px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal-topbar {
+    display: flex;
+    justify-content: space-between;
+}
+.modal-title {
+    padding: 0;
+    margin: 0;
+    line-height: 2;
+    font-size: 30px;
+    color: white;
+}
+.close:hover {
+    color: gray;
+}
+.carousel-control-prev {
+    left: -5%;
+}
+.carousel-control-next {
+    right: -5%;
+}
+
+
+

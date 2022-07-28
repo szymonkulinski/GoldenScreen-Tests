@@ -1,0 +1,123 @@
+.entryFrame {
+    width: 100vw;
+    height: 25vh;
+    margin-bottom: -20vh;
+    background-size: cover;
+    background-position: center;
+    
+}
+.nav-link {
+	color: black;
+}
+.entryFrame:before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    background-size: cover;
+    background-position: center;
+    width: 100%; height: 55%;
+    background-image: url('https://www.nti-audio.com/portals/0/pics/en/Teaser-Cinema-1200-500.jpg');
+    filter: grayscale(100%);
+    filter: blur(10px) opacity(0.5) drop-shadow(0 0 0.75rem #818686);
+  }
+  .cm {
+	  margin-top: 80px;
+  }
+  
+  .item input[type = email], .item input[type = text], .item input[type = password] {
+    width: 50%;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    border: 1px solid black;
+  }
+  .item input[type = submit] {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  }
+  .textBlock{
+    width: 100%;
+    height: 33%;
+	padding: 10px;
+    margin-bottom: 0.5rem;
+    margin-left: 0.2vw;
+  }
+  .title:first-of-type {
+    margin-top: 0px;
+  }
+  
+  .subtext{
+	  color: white;
+  }
+  
+  .title{
+	  color: rgb(255, 194, 0);
+  }
+  
+  .gridContainer {
+    width: 90vw;
+    margin-left: 5vw;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    filter: opacity(1);
+}
+
+.item {
+    flex: 250px;
+    padding: 1rem;
+}
+.item:nth-child(1) {
+    background: rgba(255, 255, 255, .9);
+    padding: 3rem 5rem 5rem 5rem;
+    max-width: 60vw;
+}
+
+.item:nth-child(2) {
+  margin-top: 5vh;
+  background: rgba(35, 35, 35, .9);
+  box-shadow: 5px 5px 8px #888888;
+  max-width: 40vw;
+  max-height: 500px;
+}
+form p {
+  padding: 0;
+  margin: 0;
+}
+form input {
+  padding: 0;
+  margin: 0;
+}
+.errorlist li {
+  padding: 0;
+  margin: 0;
+}
+@media only screen and (max-width: 991px) {
+  .item:nth-child(1) {
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 855px) {
+
+  .item:nth-child(1), .item:nth-child(2) {
+    width: 90vw;
+    max-width: 100vw;
+  }
+  .item:nth-child(1) {
+    padding: 35px;
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .item:nth-child(1) {
+    font-size: 1.1rem;
+  }
+  #content {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+  }
+}

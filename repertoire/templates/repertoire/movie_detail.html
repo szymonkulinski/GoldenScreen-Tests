@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ movie.title }} - Szczegóły{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/repertoire.css' %}" rel="stylesheet">
+<link href="{% static 'css/detailsMovie.css' %}" rel="stylesheet">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+	rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+<div class="container container-fluid">
+	{% if message|length > 0 %}
+	<script>
+		window.onload = function myFunction() {
+			// Get the snackbar DIV
+			var x = document.getElementById("snackbar");
+
+			// Add the "show" class to DIV
+			x.className = "show";
+
+			// After 3 seconds, remove the show class from DIV
+			setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+		} 
+	</script>
+	<div id="snackbar">{{ message }}</div>
+	{% endif %}
+</div>
+<div class="container container-detail">
+	<div class="filmInfo">
+		<div class="titleDiv">
+			<div>
+				<h1 style="font-weight: 700;">{{movie.title}}</h1>
+				<h4>Gatunek: {{ movie.genre.all|join:", " }}</h4>
+			</div>
+			<div>
+				<div class="ratingSquare" data-rating-avg="{{avrRating}}" style="float: right;">{{ avrRating }}</div>
+			</div>
+		</div>
+
+		<div class="infoDiv">
+			<div class="lengthDiv icon2row">
+				<div class="icon-icon"><span class="material-icons-outlined">watch_later</span></div>
+				<div class="icon-toprow titleP">Czas trwania:</div>
+				<div class="icon-bottomrow titleP">{{movie.length}} minut/y.</div>
+			</div>
+			<div class="dateDiv icon2row">
+				<div class="icon-icon"><span class="material-icons-outlined">calendar_today</span></div>
+				<div class="icon-toprow titleP">Data premiery:</div>
+				<div class="icon-bottomrow titleP ">{{movie.releaseDate}} </div>
+			</div>
+			<div class="countryDiv">
+				<span class="titleP">Kraj produkcji: </span>
+				<span class="detailsSpan ">{{movie.productionCountry}} </span>
+			</div>
+			<div class="pplDiv">
+				<div class="directorDiv">
+					<span class="titleP">Reżyser: </span>
+					<span class="detailsSpan">{{movie.director}} </span>
+				</div>
+				<div class="screenwriterDiv">
+					<span class="titleP">Scenariusz: </span>
+					<span class="detailsSpan">{{movie.screenwriter}} </span>
+				</div>
+				<div class="castDiv">
+					<span class="titleP">Obsada: </span>
+					<span class="detailsSpan">{{movie.cast}} </span>
+				</div>
+			</div>
+		</div>
+
+		<div class="opisDiv">
+			<p class="titleP">Opis:</p>
+			{{movie.description}}
+		</div>
+		<div class="imgDiv">
+			<img src='{{ movie.images.first.image.url }}' alt="poster for {{movie}}" class="card-img"
+				onClick="openCarousel()">
+			<div class='btnDiv'>
+				<button class="play-btn" id="btnO" onClick="openCarousel()">
+					<span class="material-icons-round rndIcon">photo_library</span>
+				</button>
+			</div>
+		</div>
+
+		<div class="frameDiv">
+			<iframe class="trailerFrame" src="{{movie.trailer}}" title="YouTube video player" frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen></iframe>
+		</div>
+	</div>
+
+	{% if query and days|length > 0 %}
+	<div class="container mt-4">
+		<div style="clear: both;">
+			<span style="float: left;" class="titleSpan">Nadciągające seanse:</span>
+			{% if days.has_other_pages %}
+			<ul class="pagination" style="float: right;">
+				{% if days.has_previous %}
+					<li class="page-item"><a class="page-link" href="?page={{ days.previous_page_number }}">&laquo;</a></li>
+				{% else %}
+					<li class="page-item disabled "><span><a class="page-link">&laquo;</span></a></li>
+				{% endif %}
+				{% for i in days.paginator.page_range %}
+					{% if days.number == i %}
+						<li class="page-item active "><a class="page-link"><span>{{ i }}</span></a></li>
+					{% else %}
+						<li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+					{% endif %}
+				{% endfor %}
+				{% if days.has_next %}
+					<li class="page-item"><a class="page-link" href="?page={{ days.next_page_number }}">&raquo;</a></li>
+				{% else %}
+					<li class="page-item disabled"><span><a class="page-link">&raquo;</span></a></li>
+				{% endif %}
+			</ul>
+			{% endif %}
+		</div>
+		<div class="repertoireTable">
+			{% for day in days %}
+			<div class="day">
+				<div class="daySpan">{{ day.showingDate__day }}.{% if day.showingDate__month > 9 %}
+					{{day.showingDate__month}}
+					{%else%}0{{day.showingDate__month}}{%endif%}</div>
+				<div class="hourSpan">
+					{% for seans in query %}
+						{% if seans.showingDate > current_date.date %}
+							{% if seans.showingDate.day == day.showingDate__day %}
+							<a href="{% url 'repertoire:movie_reservation' seans.slug %}">
+								<span>{{seans.showingHour|truncatechars:6|slice:5}}</span></a>
+							{% endif %}
+						{% elif seans.showingDate == current_date.date %}
+							{% if seans.showingHour.time > current_date.time %}
+								{% if seans.showingDate.day == day.showingDate__day %}
+									<a href="{% url 'repertoire:movie_reservation' seans.slug %}">
+									<span>{{seans.showingHour|truncatechars:6|slice:5}}</span></a>
+								{% endif %}
+							{%elif seans.showingHour.time <= current_date.time and seans.showingDate.day == day.showingDate__day%} 
+								<span style="color:gray">{{seans.showingHour|truncatechars:6|slice:5}}</span>
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+	{% if request.user.is_authenticated %}
+	<div class="mt-4 container reviewContainer">
+		<form method="post" class="reviewDiv">
+			{% csrf_token %}
+			{% if opinion|length > 0 %}
+			{% with opinion|first as op %}
+			<label for="review">Edytuj swoją opinię!</label>
+			<div id="review">
+				<input id="hiddenID" type="hidden" name="selectRatingEdit" value="{{op.rating}}">
+			</div>
+			<div class="divCollapse textRatingDivHidden" id="textRatingDiv">
+				<label for="textRating">Czy chcesz zmienić swoją recenzję?</label>
+				<textarea name="textRatingEdit" id="textRating" maxlength="500">{{op.review}}</textarea>
+				<button type="submit" class="textRatingSend">Edytuj opinię</button>
+			</div>
+			{% endwith %}
+			{% else %}
+			<label for="review">Podziel się swoją opinią!</label>
+			<div id="review">
+				<input id="hiddenID" type="hidden" name="selectRating" value="0">
+			</div>
+			<div class="divCollapse textRatingDivHidden" id="textRatingDiv">
+				<label for="textRating">Czy chcesz podzielić się szczegółami?</label>
+				<textarea name="textRating" id="textRating" maxlength="500"></textarea>
+				<button type="submit" class="textRatingSend">Wyślij opinię</button>
+			</div>
+			{% endif %}
+		</form>
+	</div>
+	{% else %}
+	<div class="mt-4 headerText">
+		Aby dodać opinię musisz być zalogowany! <a href="{% url 'account:login' %}">Kliknij tutaj aby się zalogować.</a>
+	</div>
+	{% endif %}
+	{% if opinions.count > 0 %}
+	<div class="container mt-5 reviewHolder">
+		<div class="headerText">Opinie użytkowników ( {{opinions.count}} ):</div>
+		{% for op in opinions %}
+		<div class="opinion mt-2">
+			<div class="oneLiner">
+				<div class="opinionHeader">Użytkownik {{ op.user }} ocenił(a) film na &nbsp; </div>
+				<div id="dataReadonlyReview" data-rating-stars="5" data-rating-readonly="true"
+					data-rating-value="{{op.rating}}" data-rating-input="#dataReadonlyInput"> </div>
+			</div>
+			<div class="opinionReview">
+				{{ op.review }}
+			</div>
+			<div class="opinionDate"> Data dodania recenzji: {{op.createdDate}} </div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+</div>
+
+<div id="carousel" class="modal">
+	<div class="modal-content">
+		<div class="modal-topbar">
+			<div class="modal-title">{{movie.title}}</div>
+			<div class="close" id="closebtn">&times;</div>
+		</div>
+		<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				{% for imgs in movie.images.all %}
+				<div class="carousel-item">
+					<img src='{{ imgs.image.url }}' alt="poster for {{movie}}" class="card-img card-img-carousel">
+				</div>
+				{% endfor %}
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+					data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+					data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNoFllG6lCPzjxe02ySghBDEc90bxsAOo&callback=initMap"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'js/rating.js' %}"></script>
+<script>
+	var carousel = document.getElementById("carousel")
+	var closebtn = document.getElementById("closebtn")
+	var divId = document.getElementById("review")
+	closebtn.onclick = function () {
+		carousel.style.display = "none";
+	}
+	function openCarousel() {
+		carousel.style.display = "block";
+		console.log("test");
+		var firstElement = document.getElementsByClassName("carousel-item")[0];
+		firstElement.classList.add("active")
+	}
+	$(function () {
+		$("#review").rating();
+	});
+
+	function initMap() {
+		const geocoder = new google.maps.Geocoder();
+		const cinemas = JSON.parse('{{cinemasLocations|safe}}');
+		cinemas.forEach(element => {
+			if (element.fields.name == document.getElementById("cinemaSelector").value) {
+				const latlng = { lat: parseFloat(element.fields.geolocation.split(",")[0]), lng: parseFloat(element.fields.geolocation.split(",")[1]) };
+				geocoder
+					.geocode({ location: latlng })
+					.then((response) => {
+						if (response.results[0]) {
+							document.getElementById("header").title = response.results[0].formatted_address;
+						}
+					}).then(document.getElementById("header").style.setProperty("--padding-for-after", "5px"))
+					.then(document.getElementById("header").style.setProperty("--padding-left", "15px"))
+
+			}
+		});
+	}
+</script>
+
+{% endblock %}

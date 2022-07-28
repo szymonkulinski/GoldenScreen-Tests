@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Wylogowano{% endblock %}
+
+{% block extra_head %}
+	<link href="{% static 'css/loginRegister.css' %}" rel="stylesheet">
+	<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="cm container">
+  <h1>Wylogowano</h1>
+  <p>
+    Pomyślnie wylogowałeś się ze swojego konta.
+    Możesz <a href="{% url 'account:login' %}">zalogować się ponownie</a>.
+  </p>
+</div>
+{% endblock %}

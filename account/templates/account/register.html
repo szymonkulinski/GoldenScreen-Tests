@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Utwórz konto{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/loginRegister.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="entryFrame">
+</div>
+<div class="mt-5 flex-container container mainBox">
+	<div class="item">
+	  <h1>Utwórz konto</h1>
+	  <p>Proszę, zarejestruj się przy użyciu poniższego formularza:</p>
+	  <form method="post" novalidate>
+		{% csrf_token %}
+		<p>
+			<label for="{{ user_form.username.id_for_label }}">Nazwa użytkownika:</label>
+			{{ user_form.username }}
+			{{ user_form.username.errors }}
+		</p>
+		<p>
+			<label for="{{ user_form.email.id_for_label }}">Adres e-mail:</label>
+			{{ user_form.email }}
+			{{ user_form.email.errors }}
+		</p>
+		<p>
+			<label for="{{ user_form.password.id_for_label }}">Hasło:</label>
+			{{ user_form.password }}
+			{{ user_form.password.errors }}
+		</p>
+		<p>
+			<label for="{{ user_form.password2.id_for_label }}">Powtórz hasło:</label>
+			{{ user_form.password2}}
+			{{ user_form.password2.errors }}
+		</p>
+		<p><input type="submit" class="bg-secondary" value="Utwórz moje konto"></p>
+	  </form>
+	</div>
+	<div class="item">
+		<div class="textBlock">
+			<h3 class="title">Rezerwuj Bilety</h3>
+			<h4 class="subtext">W wygodny i szybki sposób wybieraj seanse i siedzenia oraz termin seasnu.</h4>
+		</div>
+		<div class="textBlock">
+			<h3 class="title">Przeglądaj Filmy</h3>
+			<h4 class="subtext">Przeglądaj zwiastuny, zdjęcia, opis oraz informacje o filmach.</h3>
+		</div>
+		<div class="textBlock">
+			<h3 class="title">Przeglądaj oceny</h3>
+			<h4 class="subtext">Przeglądaj oraz wystawiaj oceny danego filmu.</h4>
+		</div>
+	</div>
+</div>
+{% endblock %}

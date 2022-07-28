@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Zaloguj się{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/loginRegister.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="entryFrame">
+</div>
+<div class="mt-5 flex-container container mainBox">
+	<div class="item">
+		<h1>Zaloguj się</h1>
+		 {% if form.non_field_errors %}
+		<p style="color: red">
+			Twoja nazwa użytkownika lub hasło nie pasują. Spróbuj zalogować się jeszcze raz.
+		</p>
+		{% else %}
+		<p>Użyj poniższego formularza do zalogowania się.<br> Jeżeli nie masz konta <a
+				href="{% url 'account:register' %}">zajerestruj się tutaj.</a></p>
+		{% endif %}
+		<div>
+			<form action="{% url 'account:login' %}" method="post" novalidate>
+				{% csrf_token %}
+				<p>
+					<label for="{{ form.username.id_for_label }}">Nazwa użytkownika / Adres e-mail:</label>
+					{{ form.username }}
+					{{ form.username.errors }}
+				</p>
+				<p>
+					<label for="{{ form.password.id_for_label }}">Hasło:</label>
+					{{ form.password }}
+					{{ form.password.errors }}
+				</p>
+				<p><input type="submit" class="bg-secondary" value="Zaloguj się"></p>
+				
+				<div class="social">
+					<ul>
+						<li class="facebook">
+							<a href="{% url 'social:begin' 'facebook' %}">Zaloguj się przy użyciu Facebooka</a>
+						</li>
+					</ul>
+					<ul>
+						<li class="google">
+							<a href="{% url 'social:begin' 'google-oauth2' %}">Zaloguj się przy użyciu Google</a>
+						</li>
+					</ul>
+				</div>
+				
+			</form>
+		</div>
+	</div>
+
+	<div class="item">
+		<div class="textBlock">
+			<h3 class="title">Rezerwuj Bilety</h3>
+			<h4 class="subtext">W wygodny i szybki sposób wybieraj seanse i siedzenia oraz termin seasnu.</h4>
+		</div>
+		<div class="textBlock">
+			<h3 class="title">Przeglądaj Filmy</h3>
+			<h4 class="subtext">Przeglądaj zwiastuny, zdjęcia, opis oraz informacje o filmach.</h4>
+		</div>
+		<div class="textBlock">
+			<h3 class="title">Przeglądaj oceny</h3>
+			<h4 class="subtext">Przeglądaj oraz wystawiaj oceny danego filmu.</h4>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

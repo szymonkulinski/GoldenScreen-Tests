@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% load index %}
+
+{% block title %}Ranking filmów{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/movieLib.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="mainbox mt-5">
+	<div id="biblioteka">
+		{% for movie in data %}
+		<a href="{% url 'repertoire:movie_detail' movie.slug %}" style="text-decoration: none; color: black">
+		<div class="container libItem">
+			<div class="title">
+				<span class="spanTitle">{{ movie.title }}</span>
+			</div>
+			<div class ="year">{{ movie.releaseDate.year }}</div>
+			<div class="image"> <img src='{{ movie.images.first.image.url }}' alt="" class="card-img-top"> </div>
+			<div class="gatunek">
+				<span class="iGray">Gatunek: </span>{{ movie.genre.all|join:", " }}
+			</div>
+			<div class="time" style="clear: both;">
+				<span style="float:left"><span class="iGray" >Długość: </span> {{ movie.length }} minut</span>
+				<span style="float:right">Ocena: {{ moviesRatings|index:forloop.counter0 }}</span>
+			</div>
+		</div>
+		</a>
+		{% endfor %}
+	</div>
+</div>
+<script src="{% static 'js/movielib.js' %}"></script>
+{% endblock %}

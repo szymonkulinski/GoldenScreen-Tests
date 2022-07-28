@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_head %}
+  <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="cm container">
+  <h1>Dashboard - 
+  {% if request.user.first_name|length > 0 %}
+		{{ request.user.first_name }} 
+  {% else %}
+		{{request.user.username }}
+  {% endif %}
+  </h1>
+  
+   <p>Witaj w ustawieniach konta!</p>
+   <p>Aktualny adres e-mail: {{request.user.email}}</p>
+   <p><a href="{% url 'account:password_change' %}">Zmień swoje hasło</a></p>
+   <p><a href="{% url 'account:email_change' %}">Zmień swój adres email</a></p>
+    <p><a href="{% url 'account:deactivate_account' %}">Deaktywuj swoje konto</a></p> 
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+.navbar {
+    transition: all 0.5s;
+}
+
+
+.navbar .nav-link {
+    color: #fff;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar .navbar-brand {
+    color: #fff;
+}
+
+
+/* Change navbar styling on scroll */
+.navbar.active {
+    background: rgba(255, 255, 255, 0);
+    background-color: #fff;
+    box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.active .nav-link {
+    color: #555;
+}
+
+.navbar.active .nav-link:hover,
+.navbar.active .nav-link:focus {
+    color: #555;
+    text-decoration: none;
+}
+
+.navbar.active .navbar-brand {
+    color: #555;
+}
+
+
+
+/* Change navbar styling on small viewports */
+@media (max-width: 991.98px) {
+    .navbar {
+        background: #fff;
+    }
+
+    .navbar .navbar-brand, .navbar .nav-link {
+        color: #555;
+    }
+}
+
+h3 {
+    filter: blur(0px) opacity(1);
+    z-index: inherit;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+.page-footer {
+    margin-top: 2%;
+    background-color: #555;
+    color: #fff;
+    margin-bottom: 0;
+}
+
+
+#cinemaSelector {
+    border: none;
+    background-color: #212529;
+    color: #AEAFB1;
+}
+#cinemaSelector > option{
+    background-color: #212529;
+    border: none;
+    margin: 0;
+    padding: 0;
+    overflow: none;
+
+} 
+#header {
+    position: relative !important;
+    --padding-for-after: 0;
+    --padding-left: 0;
+}
+#header::after {
+    content: attr(title);
+    border-bottom-left-radius: 30px;
+    height: 40px;
+    right: 0%;
+    top: 72px;
+    padding: var(--padding-for-after);
+    padding-left: var(--padding-left);
+    position: fixed;
+    background-color: #212529;
+    color: #AEAFB1;
+    text-transform: uppercase;
+    filter: blur(0px) opacity(1);
+    z-index: 1000;
+    text-decoration: none;
+}

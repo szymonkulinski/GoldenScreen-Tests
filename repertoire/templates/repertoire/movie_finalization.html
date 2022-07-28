@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load index %}
+{% load static %}
+
+{% block title %}{{ showing.movie.title }} - Finalizacja{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/finalization.css' %}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+{% if not request.user.is_authenticated %}
+<div class="div1"><h1>Nie jesteś zalogowany!</h1></div>
+{% endif %}
+{% if form.non_field_errors %}
+<p style="color: red">
+	coś tam
+</p>
+{% else %}
+<form action="" method="post" novalidate>
+
+<div class="parent">
+		<div class="div3">
+			<h1 class="mb-5">Podsumowanie rezerwacji: </h1>
+			<h2>{{ showing.movie.title }}</h2>
+	<h4>Sala {{showing.hall.name}} - {{showing.showingDate.day}}.{% if showing.showingDate.month > 9 %}
+		{{showing.showingDate.month}}
+		{%else%}0{{showing.showingDate.month}}{%endif%} - {{showing.showingHour|truncatechars:6|slice:5}}
+	</h4>
+			<h2>Zajęte miejsca:</h2>
+			{% csrf_token %}
+			{% for chosenSeat in chosenSeats %}
+			<input name="seats" hidden value="{{ seats|index:forloop.counter0 }}">
+			<p>{{ chosenSeat }}</p>
+			{% endfor %}
+			<input type="submit" class = "btn btn-dark btn-mgr" name="finalize" value="Finalizuj rezerwację">
+		</div>
+		{% if not request.user.is_authenticated %}
+		<div class="div2">
+			<h4>Podaj dane kontaktowe:</h3>
+			<p class="inputP">
+				<label for="{{ form.name.id_for_label }}">Imię:</label><br>
+				{{ form.name }}
+				{{ form.name.errors }}
+			</p>
+			<p class="inputP">
+				<label for="{{ form.last_name.id_for_label }}">Nazwisko:</label><br>
+				{{ form.last_name }}
+				{{ form.last_name.errors }}
+			</p>
+			<p class="inputP">
+				<label for="{{ form.email.id_for_label }}">Adres email:</label><br>
+				{{ form.email }}
+				{{ form.email.errors }}
+			</p>
+		</div>
+		{% else %}
+			<input name="logged" id="logged" hidden value="1">
+		{% endif %}
+</div>
+</form>
+{% endif %}
+{% endblock %}

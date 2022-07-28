@@ -1,2 +1,5 @@
-# GoldenScreen+Tests
- Web Application desined for booking seats for The cinema showings. Tested with Python using Selenium and pytest
+# GoldenScreen
+
+## Projekt **GoldenScreen** ma na celu utworzenie aplikacji internetowej do rezerwacji seansów w kinie 
+
+by Piotr Jeka, Michał Kornaus, Szymon Kulinski

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Repertuar{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'css/repertoire.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- carousel -->
+<div class="entryFrame container">
+</div>
+
+<div class="container container-fluid">
+	{% if messages %}
+	{% for message in messages %}
+	<script>
+		window.onload = function myFunction() {
+			// Get the snackbar DIV
+			var x = document.getElementById("snackbar");
+
+			// Add the "show" class to DIV
+			x.className = "show";
+
+			// After 3 seconds, remove the show class from DIV
+			setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+		} 
+	</script>
+	<div id="snackbar">{{message}}</div>
+	{% endfor %}
+	{% endif %}
+	{% if message|length > 0 %}
+	<script>
+		window.onload = function myFunction() {
+			// Get the snackbar DIV
+			var x = document.getElementById("snackbar");
+
+			// Add the "show" class to DIV
+			x.className = "show";
+
+			// After 3 seconds, remove the show class from DIV
+			setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+		} 
+	</script>
+	<div id="snackbar">{{ message }}</div>
+	{% endif %}
+</div>
+<div class="container container-fluid" style="width: 90vw">
+	<h3>Popularne teraz:</h3>
+	<div class="row">
+		<div class="col-12 m-auto">
+			<div class="owl-carousel carousel-block owl-theme" data-interval="true" data-ride="carousel">
+				{% for f in movies %}
+				<div class="item mb-4">
+					<a href="{% url 'repertoire:movie_detail' f.movie__slug %}"
+						style="text-decoration: none; color: black">
+						<div class="card border-0 shadow">
+							<img src='/media/{{ f.movie__images__image }} ' alt="{{ f.movie__title }}"
+								class="card-img-top scaleimg">
+							<div class="card-body">
+								<div class="card-title text-center">
+									<h4>{{ f.movie__title }}</h4>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- eocarousel -->
+
+<!-- lowerpage -->
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<h3 style="color: #555">Najnowsza premiera:</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<a href="{% url 'repertoire:movie_detail' newestShowing.movie__slug %}"
+				style="text-decoration: none; color: black">
+				<img src='/media/{{ newestShowing.movie__images__image }}' class="card-img-top">
+			</a>
+		</div>
+		<div class="col rightBox">
+			<div><span class="spanTitle">{{ newestShowing.movie__title }}</span><br> {{ newestShowing.movie__releaseDate }} </div>
+			<span>{{ newestShowing.movie__description }}</span>
+			<div>
+				<span><span class="iGray">Gatunek: </span>{{ newestShowing.movie__genre__name }}
+					&emsp;&emsp;&emsp;&emsp;</span>
+				<span><span class="iGray">Długość: </span>{{ newestShowing.movie__length }} minut</span>
+			</div>
+		</div>
+	</div>
+
+	<h3 style="color: #555; margin-top: 60px;  margin-bottom: 30px;">Dostępne Premiery:</h3>
+	{% for movie in movies %}
+	<div class="shadow parent" onClick=location.href="{% url 'repertoire:movie_detail' movie.movie__slug %}">
+		<div class="div1">
+			<span class="spanTitle2">{{ movie.movie__title }}</span>
+		</div>
+		<div class="div2">
+			<img src='/media/{{ movie.movie__images__image }}' alt="img" class="repertoire-img">
+		</div>
+		<div class="div3">
+			<span class="iGray">Data premiery: </span><br>{{ movie.movie__releaseDate }}</span><br>
+			<span class="iGray">Długość: </span><br>{{ movie.movie__length }} minut.</span><br>
+		</div>
+		<div class="div4">
+			{{ movie.movie__description }}
+		</div>
+	</div>
+	{% endfor %}
+
+
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNoFllG6lCPzjxe02ySghBDEc90bxsAOo&callback=initMap"></script>
+<!-- bootstrap -->
+<script>
+	function initMap() {
+		const geocoder = new google.maps.Geocoder();
+		const cinemas = JSON.parse('{{cinemasLocations|safe}}');
+		cinemas.forEach(element => {
+			if (element.fields.name == document.getElementById("cinemaSelector").value) {
+				const latlng = { lat: parseFloat(element.fields.geolocation.split(",")[0]), lng: parseFloat(element.fields.geolocation.split(",")[1]) };
+				geocoder
+					.geocode({ location: latlng })
+					.then((response) => {
+						if (response.results[0]) {
+							document.getElementById("header").title = response.results[0].formatted_address;
+						}
+					}).then (document.getElementById("header").style.setProperty("--padding-for-after", "5px"))
+					.then(document.getElementById("header").style.setProperty("--padding-left", "15px"))
+			
+			}
+		});
+	}
+</script>
+<script src="{% static 'js/mainrepertoire.js' %}"></script>
+<!-- eobootstrap -->
+
+<!-- eolowerpage -->
+<!-- eoextend -->
+
+{% endblock %}

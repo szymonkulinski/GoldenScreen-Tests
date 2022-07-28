@@ -1,0 +1,264 @@
+.entryFrame {
+    width: 100vw;
+    height: 42vh;
+    margin-bottom: -20vh;
+    background-size: cover;
+    background-position: center;
+    
+}
+.nav-link {
+	color: black;
+}
+
+.entryFrame:before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    background-size: cover;
+    background-position: center;
+    width: 100%; height: 55%;
+    background-image: url('https://www.nti-audio.com/portals/0/pics/en/Teaser-Cinema-1200-500.jpg');
+    filter: grayscale(100%);
+    filter: blur(10px) opacity(0.5) drop-shadow(0 0 0.75rem #818686);
+  }
+  .empty-repertoire-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: opacity(1);
+    color: white;
+    text-align: center;
+  }
+  
+.multi-item-carousel {
+    overflow: hidden;
+  }
+  .multi-item-carousel img {
+    height: auto;
+    width: 100%;
+  }
+  .multi-item-carousel .carousel-control.left, 
+  .multi-item-carousel .carousel-control.right {
+      background: rgba(255, 255, 255, 0.3);
+      width: 25%;
+  }
+  .multi-item-carousel .carousel-inner {
+    width: 150%;
+    left: -25%;
+  }
+  .carousel-inner > .item.next, 
+  .carousel-inner > .item.active.right {
+      -webkit-transform: translate3d(33%, 0, 0);
+      transform: translate3d(33%, 0, 0);
+  }
+  .carousel-inner > .item.prev, 
+  .carousel-inner > .item.active.left {
+      -webkit-transform: translate3d(-33%, 0, 0);
+      transform: translate3d(-33%, 0, 0);
+  }
+  .item__third {
+    float: left;
+    position: relative;  /* captions can now be added */
+    width: 33.33333%;
+  }
+  .owl-carousel .owl-nav .owl-prev, .owl-carousel .owl-nav .owl-next, .owl-carousel .owl-dot,
+    .owl-carousel .owl-nav button.owl-prev,.owl-carousel .owl-nav button.owl-next, .owl-carousel button.owl-dot{
+      display: none;
+  }
+  .owl-stage {
+      width: 100vw;
+  }
+  .owl-dot {
+      opacity: 0%;
+  }
+
+  .carousel-block {
+      margin-bottom: 5%;
+  }
+
+ .rightBox {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+ }
+.iGray {
+   color: darkgray;
+}
+
+.spanTitle {
+  font-size: 40px;
+  font-weight: bold;
+  align-items: center;
+}
+.scaleimg {
+  height: 233px;
+  width: 422px;
+  object-fit: cover;
+}
+.styled-table{
+  background-color: transparent;
+}
+.styled-table button{
+  background-color: transparent;
+}
+.styled-table p {
+  color: black;
+}
+
+.styled-table tr {
+	color: lightgray;
+	text-align: center;
+}
+.taken {
+	color: red;
+}
+.styled-table td:hover {
+	color: black;
+	cursor: pointer;
+}
+.styled-button {
+	  background-color: grey;
+	  color: black;
+	  border: 2px solid grey;
+	  border-radius: 4px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  margin: 0px;
+}
+.noStyle {
+  width: 25px;
+  height: 25px;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	outline: inherit;
+}
+
+.parent {
+  display: grid;
+  display: grid;
+  grid-template-columns: 0.4fr 1.2fr;
+  grid-template-rows: 0.1fr 0.5fr 0.8fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px; 
+  margin-bottom: 30px;
+  padding: 10px;
+  padding-left: 100px;
+  padding-right: 30px;
+}
+.parent:hover {
+  transform: scale(1.1); 
+  box-shadow: none;
+}
+.parent div img {
+  width: 100%;
+  
+}
+.parent{
+  transition: all .2s ease-in-out;
+}
+.spanTitle2 {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.div1 { grid-area: 1 / 1 / 2 / 3; }
+.div2 { grid-area: 2 / 1 / 4 / 2; }
+.div3 { grid-area: 2 / 2 / 3 / 3; }
+.div4 { grid-area: 3 / 2 / 4 / 3; } 
+
+@media only screen and (max-width: 1000px) {
+  .parent { 
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 0.1fr 0.5fr 0.5fr; 
+  } 
+  .div2 { grid-area: 2 / 1 / 3 / 2; }
+  .div3 { grid-area: 2 / 2 / 3 / 3; }
+  .div4 { grid-area: 3 / 1 / 4 / 3; } 
+  .parent:hover {
+    transform: scale(1);
+  }
+}
+@media only screen and (max-width: 500px) {
+  .spanTitle {
+    font-size: 20px;
+  }
+  .parent {
+    padding: 5px;
+  }
+}
+.seatInfo{
+  margin-top: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.seatInfo input[type=submit] {
+  margin-top: 20px;
+  float: right;
+}
+#myTable td {
+  width: 25px;
+  height: 25px;
+}
+.seatInfo #myTable td, .seatInfo #myTable tr, #myTable {
+  padding: 0;
+  margin: 0;
+}
+
+
+.repertoire-img {
+  width: 50%;
+  height: auto;
+  object-fit: cover;
+}
+
+ /* The snackbar - position it at the bottom and in the middle of the screen */
+ #snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 50%; /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+} 

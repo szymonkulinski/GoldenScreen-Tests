@@ -1,0 +1,85 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls static %}
+{% load admin_tags %}
+
+{% block extrahead %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="{% static 'js/seatsGenerator.js' %}"></script>
+<link href="{% static 'css/repertoire.css' %}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+{% block field_sets %}
+<fieldset class="module aligned">
+	{% csrf_token %}
+	<div class="form-row field-name">
+		<label for="{{ adminform.form.name.id_for_label }}">Name:</label>
+		{{ adminform.form.name }}
+		<p>{{ adminform.form.name.errors }}</p>
+	</div>
+	<div class="form-row field-cinema">
+		<label for="{{ adminform.form.cinema.id_for_label }}">Cinema:</label>
+		{{ adminform.form.cinema }}
+		<p>{{ adminform.form.cinema.errors }}</p>
+	</div>
+	<div class="form-row field-seats">
+		<label for="{{ adminform.form.seats.id_for_label }}">Seats:</label>
+		{% if not change %}
+		{{ adminform.form.seats }}
+		<script>
+			var x = document.getElementsByClassName("field-seats")[0];
+			x.style.display = "none";
+		</script>
+		{% else %}
+		{{ adminform.form.seats }}
+		{% endif %}
+	</div>
+
+</fieldset>
+{% endblock %}
+{% block after_field_sets %}
+{% if change is not True %}
+</form>
+<p id="sendInfo"></p>
+<form name="myform" id="myform">
+	<p>{{ adminform.form.seats.errors }}</p>
+	<input type="button" id="btnAdd" class="button" value="Add row">
+	<input type="button" id="btnAddCol" class="button" value="Add column">
+	<input type="button" id="btnRemCol" class="button" value="Remove column">
+	<input type="button" id="btnRemRow" class="button" value="Remove Row">
+	<table id="blacklistgrid">
+		<tr id="Row2">
+		</tr>
+	</table>
+	<input type="button" onClick="checkTable()" class="button mt" value="Save seats">
+</form>
+{% else %}
+
+<form name="myform" id="myform">
+	<p>{{ adminform.form.seats.errors }}</p>
+	<input type="button" id="btnAdd" class="button" value="Add row">
+	<input type="button" id="btnAddCol" class="button" value="Add column">
+	<input type="button" id="btnRemCol" class="button" value="Remove column">
+	<input type="button" id="btnRemRow" class="button" value="Remove Row">
+	<input type="button" onClick="checkTable()" class="button mt" value="Save seats">
+
+
+{% saved_halls adminform.form.name.value as hall %}
+<table id = "blacklistgrid">
+	{% for x in hall.seats %}
+	<tr id="Row2">
+		{% for seat in x.seats %}
+		{% if seat.isSeat %}
+		<td><input type="checkbox" checked  name="cb"/></td>
+		{% else %}
+		<td><input type="checkbox" name="cb"/></td>
+		{% endif %}
+		{% endfor %}
+
+	</tr>
+	{% endfor %}
+</table>
+</form>
+{% endif %}
+
+
+{% endblock %}
