@@ -36,6 +36,8 @@ Przez specyfike aplikacji część testów wymaga praw administratora. Z kwestii
 
 - 1.7.3 Zmiana Adresu Email z błędnymi danymi ( różne adresy e-mail )
 
+W teście tym logujemy się istniejące konto. Następnie przechodzimy do dashboardu użytkownika i zmieniamy email z błednymi danymi w postaci różniących się adresów email, oraz sprawdzamy czy wyświetlił się odpowiedni komunikat "Podane adresy muszą być takie same."
+
 Kroki
 ```
 1.Niezalogowany użytkownik przechodzi na strone https://goldenscreen.pythonanywhere.com 
@@ -86,7 +88,9 @@ Kod
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
  ```
  
-- 6.1.2 Zmiana Adresu Email z błędnymi danymi ( różne adresy e-mail )
+- 6.1.2 Dodanie nowego filmu istniejącego już w bazie danych
+
+Test polega na sprawdzeniu poprawnego działania walidacji tego, czy dodawany film nie istnieje już w bazie danych. Dobrze działająca aplikacja powinień powiadomić administratora komunikatem o powieleniu filmu "Movie with this Title and ReleaseDate already exists."
 
 Kroki
 ```
