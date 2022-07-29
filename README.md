@@ -85,7 +85,78 @@ Kod
     assert self.driver.find_element(By.CSS_SELECTOR, ".errorlist > li").text == "Podane adresy muszą być takie same."
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
  ```
+ 
+- 6.1.2 Zmiana Adresu Email z błędnymi danymi ( różne adresy e-mail )
 
+Kroki
+```
+1.Klika "Zaloguj się" w menu
+2. Wpisuje login administratora
+3. Wpisuje hasło administratora
+4. Klika przycisk "Zaloguj się"
+5.Użytkownik przechodzi do panelu administracyjnego klikając odnościk "Panel Administracyjny" w menu
+6.Przechodzi do bazy danych klikając hiperlink "Movies"
+Dwukrotnie:
+  7.Przechodzi podstrony dodawania filmu klikając odnośnik "Add Movie"
+  8.Wprowadza Title
+  9.Wprowadza Description
+  10.Wprowadza ProductionCountry
+  11.Wprowadza Director
+  12.Wprowadza Screenwriter
+  13.Wprowadza Cast
+  14.Wprowadza Trailer
+  15.Wybiera Images
+  16.Wybiera Genre
+  17.Wprowadza Slug
+  18.Wprowadza ReleaseDate
+  19.Wprowadza Length
+  20.Wciska przycisk "SAVE"
+21. Użytkownik wchodzi w szczegóły filmu klikając nazwe filmu
+22. Użytkownik sprawdza czy wszystkie dane są zgodne z danymi w danych wejściowych
+Kolejne kroki usuwają film i wylogowywyją z konta admina(Aby można było wykonywać test wielokrotnie)
+18. Klika "Delete"
+19. Klika "Yes, i'm sure"
+20. Klika "Log Out"
+```
+Warunek Końcowy
+```
+Administrator dostaje komunikat o powieleniu się filmu "Movie with this Title and ReleaseDate already exists."
+```
+Kod
+```python
+  def test_613dodanieFilmuBezNazwy(self, name, password):
+    self.driver.maximize_window()
+    self.driver.get("http://127.0.0.1:8000/repertoire/")
+
+    self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
+    self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+    self.driver.find_element(By.ID, "AdminPanel").click()
+    self.driver.find_element(By.LINK_TEXT, "Movies").click()
+    self.driver.find_element(By.CSS_SELECTOR, "li > .addlink").click()
+    self.driver.find_element(By.ID, "id_title").send_keys(" ")
+    self.driver.find_element(By.ID, "id_description").send_keys("Wujek zostaje zmuszony do opieki nad nastoletnim bratankiem po śmierci jego ojca.")
+    self.driver.find_element(By.ID, "id_productionCountry").send_keys("USA")
+    self.driver.find_element(By.ID, "id_director").send_keys("Kenneth Lonergan")
+    self.driver.find_element(By.ID, "id_screenwriter").send_keys("Kenneth Lonergan")
+    self.driver.find_element(By.ID, "id_cast").send_keys("Casey Affleck, Lucas Hedges, Michelle Williams, Kyle Chandler")
+    self.driver.find_element(By.ID, "id_trailer").clear()
+    self.driver.find_element(By.ID, "id_trailer").send_keys("http://www.youtube.com/embed/gsVoD0pTge0")
+    self.driver.find_element(By.CSS_SELECTOR, "#id_images > option:nth-child(10)").click()
+    dropdown = self.driver.find_element(By.ID, "id_genre")
+    dropdown.find_element(By.XPATH, "//option[. = 'Dramat']").click()
+    self.driver.find_element(By.ID, "id_slug").clear()
+    self.driver.find_element(By.ID, "id_slug").send_keys("manchasterbythesea")
+    self.driver.find_element(By.ID, "id_releaseDate").clear()
+    self.driver.find_element(By.ID, "id_releaseDate").send_keys("2016-01-23")
+    self.driver.find_element(By.ID, "id_length").clear()
+    self.driver.find_element(By.ID, "id_length").send_keys("137")
+    self.driver.find_element(By.NAME, "_save").send_keys(Keys.ENTER)
+    assert self.driver.find_element_by_class_name('errorlist').text == "To pole jest wymagane."
+    self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
+```
+ 
 # Autorzy
 Testy: Szymon Kulinski
 
