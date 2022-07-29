@@ -16,8 +16,12 @@ class TestTesty():
   
   def teardown_method(self, method):
     self.driver.quit()
-  
-  def test_111PoprawnaRejestracja(self):
+    
+  @pytest.fixture(scope="session")
+  def name(pytestconfig):
+    return pytestconfig.getoption("name", "password")
+    
+  def test_111PoprawnaRejestracja(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
     WebDriverWait(self.driver, 3000).until(expected_conditions.presence_of_element_located((By.ID, "cinemaSelector")))
@@ -37,9 +41,9 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, ".bg-secondary").click()
     self.driver.find_element(By.CSS_SELECTOR, "h1").click()
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
     self.driver.find_element(By.ID, "id_password").click()
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.CSS_SELECTOR, ".bg-secondary").click()
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Users").click()
@@ -57,7 +61,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
     self.driver.find_element(By.LINK_TEXT, "REPERTUAR").click()
 
-  def test_112BdnarejestracjaBdnyadresemail(self):
+  def test_112BldnarejestracjaBlednyadresEmail(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -72,7 +76,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, ".bg-secondary").click()
     assert self.driver.find_element(By.CSS_SELECTOR, ".errorlist > li").text == "Wprowadź poprawny adres e-mail."
   
-  def test_113BdnarejestracjaKrtkiehaso(self):
+  def test_113BlednaRejestracjaKrotkieHaslo(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -87,7 +91,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, ".bg-secondary").click()
     assert self.driver.find_element(By.CSS_SELECTOR, ".errorlist > li").text == "Hasło powinno mieć conajmniej 8 znaków."
   
-  def test_114BdnarejestracjaBrakhasa(self):
+  def test_114BlednaRejestracjaBrakHasla(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -100,13 +104,13 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, ".errorlist:nth-child(8) > li").text == "To pole jest wymagane."
     assert self.driver.find_element(By.CSS_SELECTOR, ".errorlist:nth-child(5) > li").text == "To pole jest wymagane."
   
-  def test_115PowielonaRejestracja(self):
+  def test_115PowielonaRejestracja(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "SignIn").click()
     self.driver.find_element(By.ID, "id_username").click()
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
     self.driver.find_element(By.ID, "id_email").click()
     self.driver.find_element(By.ID, "id_email").send_keys("testjekapiotr@gmail.com")
     self.driver.find_element(By.ID, "id_password").click()
@@ -116,7 +120,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, ".bg-secondary").click()
     assert self.driver.find_element(By.CSS_SELECTOR, ".errorlist > li").text == "Użytkownik o tej nazwie już istnieje."
 
-  def test_121Logowanieprzyuyciuadresuemail(self):
+  def test_121LogowaniePrzyUyciuAdresuEmail(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -128,7 +132,7 @@ class TestTesty():
     assert self.driver.find_element(By.ID, "UserCard").text == "WITAJ JEKAPIOTR2"
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
   
-  def test_122Logowanieprzyuyciuloginu(self):
+  def test_122LogowaniePrzyUyciuLoginu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -140,7 +144,7 @@ class TestTesty():
     assert self.driver.find_element(By.ID, "UserCard").text == "WITAJ JEKAPIOTR2"
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
   
-  def test_124Bdnelogowanieprzyuyciumaila(self):
+  def test_124BledneLogowaniePrzyUzyciuEmaila(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -152,7 +156,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, ".bg-secondary").click()
     assert self.driver.find_element(By.CSS_SELECTOR, ".item > p").text == "Twoja nazwa użytkownika lub hasło nie pasują. Spróbuj zalogować się jeszcze raz."
 
-  def test_125Bdnelogowanieprzyuyciuloginu(self):
+  def test_125Blednelogowanieprzyuyciuloginu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -164,7 +168,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, ".bg-secondary").click()
     assert self.driver.find_element(By.CSS_SELECTOR, ".item > p").text == "Twoja nazwa użytkownika lub hasło nie pasują. Spróbuj zalogować się jeszcze raz."
  
-  def test_141ElementyDashboardu(self):
+  def test_141ElementyDashboardu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -180,7 +184,7 @@ class TestTesty():
     assert self.driver.find_element(By.LINK_TEXT, "Deaktywuj swoje konto").text == "Deaktywuj swoje konto"
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
    
-  def test_151351Poprawnewystawienieopinii(self):
+  def test_151351Poprawnewystawienieopinii(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
     WebDriverWait(self.driver, 3000).until(expected_conditions.presence_of_element_located((By.ID, "cinemaSelector")))
@@ -212,8 +216,8 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, ".opinion:nth-child(2) > div:nth-child(2)").text == "Film nienajgorszy!"
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click() 
     self.driver.find_element(By.LINK_TEXT, "User opinions").click()
@@ -225,7 +229,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(4)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
      
-  def test_154354Edytowanieopinii(self):
+  def test_154354Edytowanieopinii(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
     WebDriverWait(self.driver, 3000).until(expected_conditions.presence_of_element_located((By.ID, "cinemaSelector")))
@@ -259,8 +263,8 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, ".opinion:nth-child(2) > div:nth-child(2)").text == "Film w porządku!"
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "User opinions").click()
@@ -272,7 +276,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(4)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_161Zmianahasakonta(self):
+  def test_161ZmianaHaslakonta(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -310,7 +314,7 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, "h1").text == "Hasło zmienione"
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
   
-  def test_172ZmianaAdresuEmailzbednymidanymibdnehaso(self):
+  def test_172ZmianaAdresuEmailzbednymidanymiBlednehaso(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -335,7 +339,7 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, ".cm > p:nth-child(4)").text == "Błędne hasło."
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
   
-  def test_171ZmianaAdresuEmailzpoprawnymidanymi(self):
+  def test_171ZmianaAdresuEmailzpoprawnymidanymi(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -379,7 +383,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, ".btn-accept").click()
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
 
-  def test_153Poprawnewystawienieopiniibeztreci(self):
+  def test_153Poprawnewystawienieopiniibeztreci(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
     WebDriverWait(self.driver, 3000).until(expected_conditions.presence_of_element_located((By.ID, "cinemaSelector")))
@@ -404,8 +408,8 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, ".textRatingSend").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "User opinions").click()
@@ -418,7 +422,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(4)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
   
-  def test_152PoprawneClipowanieTekstuPonad500znakow(self):
+  def test_152PoprawneClipowanieTekstuPonad500znakow(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
     WebDriverWait(self.driver, 3000).until(expected_conditions.presence_of_element_located((By.ID, "cinemaSelector")))
@@ -444,8 +448,8 @@ class TestTesty():
     assert self.driver.find_element(By.ID, "textRating").text == "ZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnakiZnaki"
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "User opinions").click()
@@ -457,7 +461,7 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(4)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
   
-  def test_173ZmianaAdresuEmailzbdnymidanymirneadresyemail(self):
+  def test_173ZmianaAdresuEmailzbdnymidanymirneadresyemail(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
     
@@ -482,7 +486,7 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, ".errorlist > li").text == "Podane adresy muszą być takie same."
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
   
-  def test_174ZmianaAdresuEmailzbdnymidanymiBrakwprowadzeniapierwszegoadresu(self):
+  def test_174ZmianaAdresuEmailzbdnymidanymiBrakwprowadzeniapierwszegoadresu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -502,7 +506,7 @@ class TestTesty():
     assert element.is_enabled() is False
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
   
-  def test_175ZmianaAdresuEmailzbdnymidanymiBrakwprowadzeniadrugiegoadresu(self):
+  def test_175ZmianaAdresuEmailzbdnymidanymiBrakwprowadzeniadrugiegoadresu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -522,7 +526,7 @@ class TestTesty():
     assert element.is_enabled() is False
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
   
-  def test_176ZmianaAdresuEmailzbdnymidanymiBrakwprowadzeniahasla(self):
+  def test_176ZmianaAdresuEmailzbdnymidanymiBrakwprowadzeniaHasla(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -542,7 +546,7 @@ class TestTesty():
     assert element.is_enabled() is False
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
 
-  def test_181Deaktywacjakontazpoprawnymhasem(self):
+  def test_181Deaktywacjakontazpoprawnymhasem(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
@@ -569,9 +573,9 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, ".item > p").text == "Twoja nazwa użytkownika lub hasło nie pasują. Spróbuj zalogować się jeszcze raz."
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "id_username").clear()
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
     self.driver.find_element(By.ID, "id_password").click()
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Users").click()
@@ -583,7 +587,7 @@ class TestTesty():
     self.driver.find_element(By.NAME, "_save").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
       
-  def test_182Deaktywacjakontazbdnymhasem(self):
+  def test_182Deaktywacjakontazbdnymhasem(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
     WebDriverWait(self.driver, 3000).until(expected_conditions.presence_of_element_located((By.ID, "cinemaSelector")))
@@ -606,13 +610,13 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, "p:nth-child(4)").text == "Błędne hasło."
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
   
-  def test_619Dodanienowegofilmupoaktualizacjistrukturybazydanych(self):
+  def test_619DodanieNowegoFilmuPoAktualizacjiStrukturyBazyDanych(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -656,14 +660,14 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(2)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
   
-  def test_521Czasowewyznaczanieprojekcji(self):
+  def test_521CzasoweWyznaczanieProjekcji(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
     self.driver.find_element(By.ID, "id_password").click()
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Showings").click()
@@ -701,14 +705,14 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(7)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
   
-  def test_522BedneczasowewyznaczanieprojekcjiUjemnyczasdni(self):
+  def test_522BledneCzasoweWyznaczanieProjekcjiUjemnyCzasDni(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
     self.driver.find_element(By.ID, "id_password").click()
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Showings").click()
@@ -743,13 +747,13 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, "li").text == "Ensure this value is greater than or equal to 0."
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
   
-  def test_331Wywietlenieurednionejocenyuytkownikw(self):
+  def test_331WywietlenieUsreDnionejOcenyUzytkownikow(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -788,8 +792,8 @@ class TestTesty():
     self.driver.find_element(By.ID, "LogOut").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "id_username").click()
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     
     dropdown = self.driver.find_element(By.ID, "cinemaSelector")
@@ -811,14 +815,14 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(4)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
   
-  def test_531Dodawaniesalikinowej(self):
+  def test_531Dodawaniesalikinowej(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "id_username").click()
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Halls").click()
@@ -835,14 +839,14 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(2)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_532Bdnedodawaniesalikinowej(self):
+  def test_532BledneDodawaniesalikinowej(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "id_username").click()
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Halls").click()
@@ -854,13 +858,13 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, "li").text == "To pole jest wymagane."
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
     
-  def test_332NiepoprawnewywietlenieurednionejocenyuytkownikwBrakocen(self):
+  def test_332NiepoprawnewywietlenieUsreDnionejOcenyUzytkownikowBrakocen(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -901,13 +905,13 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(4)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_612DodanieFilmuIstniejacegoJuzWbazieDanych(self):
+  def test_612DodanieFilmuIstniejacegoJuzWbazieDanych(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -957,13 +961,13 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(2)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_613dodanieFilmuBezNazwy(self):
+  def test_613dodanieFilmuBezNazwy(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -989,13 +993,13 @@ class TestTesty():
     assert self.driver.find_element_by_class_name('errorlist').text == "To pole jest wymagane."
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_614dodanieFilmuBezOpisu(self):
+  def test_614dodanieFilmuBezOpisu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -1021,13 +1025,13 @@ class TestTesty():
     assert self.driver.find_element_by_class_name('errorlist').text == "To pole jest wymagane."
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_615dodanieFilmuBezZdjecia(self):
+  def test_615dodanieFilmuBezZdjecia(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -1053,13 +1057,13 @@ class TestTesty():
     assert self.driver.find_element_by_class_name('errorlist').text == "To pole jest wymagane."
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_616dodanieFilmuBezSlugu(self):
+  def test_616dodanieFilmuBezSlugu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -1085,13 +1089,13 @@ class TestTesty():
     assert self.driver.find_element_by_class_name('errorlist').text == "To pole jest wymagane."
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_617dodanieFilmuZujemnymCzasem(self):
+  def test_617dodanieFilmuZujemnymCzasem(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Movies").click()
@@ -1117,13 +1121,13 @@ class TestTesty():
     assert self.driver.find_element_by_class_name('errorlist').text == "Ensure this value is greater than or equal to 5."
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_541PoprawneEdytowanieSaliKinowej(self):
+  def test_541PoprawneEdytowanieSaliKinowej(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Halls").click()
@@ -1152,13 +1156,13 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(2)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_542BledneEdytowanieSaliKinowej(self):
+  def test_542BledneEdytowanieSaliKinowej(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Halls").click()
@@ -1183,13 +1187,13 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(2)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
   
-  def test_511Dodawanienowegoseansu(self):
+  def test_511DodawanieNowegoSeansu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Showings").click()
@@ -1212,13 +1216,13 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(2)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_512Powtornedodawanienowegoseansu(self):
+  def test_512PowtorneDodawanieNowegoSeansu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Showings").click()
@@ -1255,13 +1259,13 @@ class TestTesty():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(2)").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_513Blednedodanienowegoseansuzprzeszladata(self):
+  def test_513BledneDodanieNowegoSeansuzPrzeszlaData(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
 
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").click()
     self.driver.find_element(By.LINK_TEXT, "Showings").click()
@@ -1282,12 +1286,12 @@ class TestTesty():
     self.driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/nav/div[5]/table/tbody/tr[2]/th/a").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_633DodanieNowejPlacowkiKinaBezAdresu(self):
+  def test_633DodanieNowejPlacowkiKinaBezAdresu(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/")
     self.driver.find_element(By.ID, "LogIn").send_keys(Keys.ENTER)
-    self.driver.find_element(By.ID, "id_username").send_keys("admin")
-    self.driver.find_element(By.ID, "id_password").send_keys("Koperek!1")
+    self.driver.find_element(By.ID, "id_username").send_keys("name")
+    self.driver.find_element(By.ID, "id_password").send_keys("password")
     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     self.driver.find_element(By.ID, "AdminPanel").send_keys(Keys.ENTER)
     self.driver.find_element(By.CSS_SELECTOR, ".model-cinema .addlink").click()
@@ -1296,13 +1300,13 @@ class TestTesty():
     assert self.driver.find_element(By.CSS_SELECTOR, ".errorlist > li").text == "To pole jest wymagane."
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
 
-  def test_421WyswietleniePinuLokalizacji(self):
+  def test_421WyswietleniePinuLokalizacji(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/")
     WebDriverWait(self.driver, 5000).until(expected_conditions.visibility_of_element_located((By.XPATH, "/html/body/div/div/div/div/div/div/div[2]/div[2]/div/div[3]/div[1]")))
     self.driver.find_element_by_xpath('/html/body/div/div/div/div/div/div/div[2]/div[2]/div/div[3]/div[1]')
 
-  def test_261WyswietlenieAdresuPlacowki(self):
+  def test_261WyswietlenieAdresuPlacowki(self, name, password):
     self.driver.maximize_window()
     self.driver.get("http://127.0.0.1:8000/repertoire/")
     WebDriverWait(self.driver, 3000).until(expected_conditions.presence_of_element_located((By.ID, "cinemaSelector")))
