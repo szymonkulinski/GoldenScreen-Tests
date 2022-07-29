@@ -24,7 +24,8 @@ https://docs.google.com/spreadsheets/d/1ckYsxgPMeJAIBvLEDr3dVJLd7-Nx4E6c-aCjLeyz
 
 Lokalizacja Plików
 ```
-/Tests
+/Tests/GoldenTest.py -- Plik z kodem testów
+/Tests/conftest.py -- Plik konfiguracyjny
 ```
 Uruchomienie testów
 ```
